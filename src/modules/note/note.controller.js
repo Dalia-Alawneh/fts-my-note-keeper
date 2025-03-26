@@ -9,7 +9,7 @@ const createNote = async (req, res, next) => {
   }
 }
 
-const getNotes = async (req, res) => {
+const getNotes = async (req, res, next) => {
   try {
     const notes = await Note.find();
 
@@ -19,7 +19,7 @@ const getNotes = async (req, res) => {
   }
 }
 
-const getNote = async (req, res) => {
+const getNote = async (req, res, next) => {
   const { id } = req.params;
   try {
     const note = await Note.findById(id);
@@ -33,7 +33,7 @@ const getNote = async (req, res) => {
   }
 }
 
-const deleteNote = async (req, res) => {
+const deleteNote = async (req, res, next) => {
   const { id } = req.params;
   try {
     const note = await Note.findByIdAndDelete(id);
@@ -47,7 +47,7 @@ const deleteNote = async (req, res) => {
   }
 }
 
-const updateNote = async (req, res) => {
+const updateNote = async (req, res, next) => {
   const { id } = req.params;
   const { title, content } = req.body;
   try {
@@ -66,7 +66,7 @@ const updateNote = async (req, res) => {
   }
 }
 
-const partiallyUpdateNote = async (req, res) => {
+const partiallyUpdateNote = async (req, res, next) => {
   const { id } = req.params;
   const { title, content } = req.body;
   try {
@@ -85,5 +85,29 @@ const partiallyUpdateNote = async (req, res) => {
   }
 }
 
+const searchNote = async (req, res, next) => {
+  const { query } = req.query;
 
-export { createNote, getNotes, getNote, deleteNote, updateNote, partiallyUpdateNote }
+  if (!query) {
+    return res.status(400).json({ message: "Search query is required" })
+  }
+  try {
+    const notes = await Note.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+        { content: { $regex: query, $options: 'i' } },
+      ]
+    });
+    if (notes.length === 0) {
+      return res.status(204).json({ message: "No data found" })
+    }
+
+    return res.status(200).json({ notes })
+  } catch (error) {
+    next(error)
+  }
+}
+
+
+
+export { createNote, getNotes, getNote, deleteNote, updateNote, partiallyUpdateNote, searchNote }
