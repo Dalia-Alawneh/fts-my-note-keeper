@@ -1,24 +1,21 @@
 import Note from "../../../database/models/note.model.js";
 
-const createNote = async (req, res) => {
+const createNote = async (req, res, next) => {
   try {
     const addedNote = await Note.create(req.body)
     return res.status(201).json({ message: "Note added successfully", addedNote });
-  } catch (e) {
-    console.error("Error creating note:", e);
-
-    return res.status(500).json({ message: "Failed to add note", error: e.message });
+  } catch (error) {
+    next(error)
   }
 }
 
 const getNotes = async (req, res) => {
   try {
     const notes = await Note.find();
-    return res.json({ notes })
-  } catch (e) {
-    console.error("Error fetching notes:", e);
 
-    return res.status(500).json({ message: "Failed to fetch notes", error: e.message });
+    return res.json({ notes })
+  } catch (error) {
+    next(error)
   }
 }
 
@@ -31,10 +28,8 @@ const getNote = async (req, res) => {
     }
 
     return res.status(200).json({ note })
-  } catch (e) {
-    console.error("Error fetching note:", e);
-
-    return res.status(500).json({ message: "Failed to fetch note", error: e.message });
+  } catch (error) {
+    next(error)
   }
 }
 
@@ -47,10 +42,8 @@ const deleteNote = async (req, res) => {
     }
 
     return res.status(200).json({ message: "Note deleted successfully" })
-  } catch (e) {
-    console.error("Error fetching note:", e);
-
-    return res.status(500).json({ message: "Failed to fetch note", error: e.message });
+  } catch (error) {
+    next(error)
   }
 }
 
@@ -68,10 +61,8 @@ const updateNote = async (req, res) => {
     }
 
     return res.status(200).json({ message: "Note updated successfully", note })
-  } catch (e) {
-    console.error("Error fetching note:", e);
-
-    return res.status(500).json({ message: "Failed to fetch note", error: e.message });
+  } catch (error) {
+    next(error)
   }
 }
 
@@ -89,10 +80,8 @@ const partiallyUpdateNote = async (req, res) => {
     }
 
     return res.status(200).json({ message: "Note updated successfully", note })
-  } catch (e) {
-    console.error("Error fetching note:", e);
-
-    return res.status(500).json({ message: "Failed to fetch note", error: e.message });
+  } catch (error) {
+    next(error)
   }
 }
 
