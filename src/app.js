@@ -8,7 +8,7 @@ const initApp = (app, express) => {
   app.use(cors());
   app.use('/notes', noteRouter)
   app.use('/*', (req, res) => {
-    return res.json({ messaga: "page not found" });
+    return res.json({ message: "page not found" });
   })
 }
 
