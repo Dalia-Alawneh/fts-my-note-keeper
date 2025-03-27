@@ -10,9 +10,24 @@ const createNote = async (req, res, next) => {
 }
 
 const getNotes = async (req, res, next) => {
+  let { limit, skip } = req.query;
   try {
-    const notes = await Note.find();
+    if (limit && skip) {
+      limit = parseInt(limit);
+      skip = parseInt(skip);
 
+      if (isNaN(limit) || isNaN(skip) || limit < 1 || skip < 0) {
+        return res.status(400).json({ error: "Invalid pagination parameters" });
+      }
+
+      const [notes, total] = await Promise.all([
+        await Note.find().limit(limit).skip(skip),
+        Note.countDocuments()
+      ])
+      return res.json({ notes, limit, total })
+    }
+
+    const notes = await Note.find();
     return res.json({ notes })
   } catch (error) {
     next(error)
