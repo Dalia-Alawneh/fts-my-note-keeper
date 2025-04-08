@@ -18,3 +18,7 @@ export const noteIdSchema = Joi.object().keys({
   id: Joi.string().custom(validateObjectId).required(),
 });
 
+export const partialNoteSchema = Joi.object().keys({
+  title: Joi.string().min(3).max(50),
+  content: Joi.string().max(100),
+});
