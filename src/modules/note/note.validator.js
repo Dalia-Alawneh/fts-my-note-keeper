@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 
-export const validateSearchQuery = (req) => {
+export const checkValidation = (req) => {
   const result = validationResult(req);
   if (result.isEmpty()) {
     return { valid: true };

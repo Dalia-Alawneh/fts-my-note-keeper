@@ -3,12 +3,12 @@ import { createNote, deleteNote, getNote, getNotes, partiallyUpdateNote, searchN
 import errorHandler from "#middlewares/errorHandler.js";
 import validate from "#validation/index.js";
 import { noteIdSchema, noteSchema, partialNoteSchema } from "#validation/schemas.js";
-import { query } from "express-validator";
+import { validateNotePagination, validateSearchQuery } from "#validation/validateQuery.js";
 
 const router = Router();
 router.post('/', validate([{ schema: noteSchema, target: 'body' }]), createNote);
-router.get('/search',query('query').notEmpty(), searchNote);
-router.get('/', getNotes);
+router.get('/search', validateSearchQuery, searchNote);
+router.get('/', validateNotePagination, getNotes);
 router.get('/:id', validate([{ schema: noteIdSchema, target: 'params' }]), getNote);
 router.delete('/:id', validate([{ schema: noteIdSchema, target: 'params' }]), deleteNote);
 router.put(
