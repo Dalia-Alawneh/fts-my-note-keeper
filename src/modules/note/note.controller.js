@@ -1,6 +1,7 @@
-import Note from "../../models/note.model.js";
-import { createNoteService, searchNotesService } from "./note.service.js";
-import { validateSearchQuery } from "./note.validator.js";
+import Note from "#models/note.model.js";
+import { createNoteService, searchNotesService } from "#modules/note/note.service.js";
+import { validateSearchQuery } from "#modules/note/note.validator.js";
+
 
 const createNote = (req, res, next) => {
   createNoteService(req, res, next);

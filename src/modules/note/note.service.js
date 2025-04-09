@@ -1,4 +1,4 @@
-import { createNoteRepository, searchNotesRepository } from "./note.repository.js";
+import { createNoteRepository, searchNotesRepository } from "#modules/note/note.repository.js";
 
 export const searchNotesService = async (req, res, next) => {
   const { query } = req.query;
