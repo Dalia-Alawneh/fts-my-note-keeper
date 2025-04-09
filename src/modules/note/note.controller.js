@@ -1,4 +1,3 @@
-import Note from "#models/note.model.js";
 import { createNoteService, deleteNoteService, getNoteService, getNotesService, partiallyUpdateNoteService, searchNotesService, updateNoteService } from "#modules/note/note.service.js";
 import { checkValidation } from "#modules/note/note.validator.js";
 

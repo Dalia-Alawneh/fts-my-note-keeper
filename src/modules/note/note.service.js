@@ -10,20 +10,6 @@ import {
   updateNoteRepository
 } from "#modules/note/note.repository.js";
 
-export const searchNotesService = async (req, res, next) => {
-  const { query } = req.query;
-  try {
-    const notes = await searchNotesRepository(query);
-    if (notes.length === 0) {
-      return res.status(204).json({ message: "No data found" })
-    }
-
-    return res.status(200).json({ notes })
-  } catch (error) {
-    next(error)
-  }
-}
-
 export const createNoteService = async (req, res, next) => {
   try {
     const addedNote = await createNoteRepository(req.body)
@@ -97,7 +83,6 @@ export const updateNoteService = async (req, res, next) => {
 
 export const partiallyUpdateNoteService = async (req, res, next) => {
   const { id } = req.params;
-  const { title, content } = req.body;
   try {
     const note = await partiallyUpdateNoteRepository(id, req.body);
     if (!note) {
@@ -105,6 +90,20 @@ export const partiallyUpdateNoteService = async (req, res, next) => {
     }
 
     return res.status(200).json({ message: "Note updated successfully", note })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const searchNotesService = async (req, res, next) => {
+  const { query } = req.query;
+  try {
+    const notes = await searchNotesRepository(query);
+    if (notes.length === 0) {
+      return res.status(204).json({ message: "No data found" })
+    }
+
+    return res.status(200).json({ notes })
   } catch (error) {
     next(error)
   }

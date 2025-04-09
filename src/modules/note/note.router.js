@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { createNote, deleteNote, getNote, getNotes, partiallyUpdateNote, searchNote, updateNote } from "./note.controller.js";
+import {
+  createNote, deleteNote,
+  getNote, getNotes,
+  partiallyUpdateNote, searchNote, updateNote
+} from "#modules/note/note.controller.js";
 import errorHandler from "#middlewares/errorHandler.js";
 import validate from "#validation/index.js";
 import { noteIdSchema, noteSchema, partialNoteSchema } from "#validation/schemas.js";

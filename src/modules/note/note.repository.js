@@ -17,8 +17,8 @@ export const getPaginatedNotesRepository = async (limit, skip) => {
   return await Note.find().limit(limit).skip(skip);
 }
 
-export const countDocumentRepository = () => {
-  return Note.countDocuments();
+export const countDocumentRepository = async () => {
+  return await Note.countDocuments();
 }
 
 export const getNotesRepository = async () => {
