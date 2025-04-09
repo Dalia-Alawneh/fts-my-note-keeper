@@ -1,4 +1,4 @@
-import connectDB from '../database/index.js';
+import connectDB from './utils/connectMongoDB.js';
 import noteRouter from './modules/note/note.router.js';
 import cors from 'cors';
 
