@@ -1,5 +1,5 @@
-import connectDB from './utils/connectMongoDB.js';
-import noteRouter from './modules/note/note.router.js';
+import connectDB from '#utils/connectMongoDB.js';
+import noteRouter from '#modules/note/note.router.js';
 import cors from 'cors';
 
 const initApp = (app, express) => {

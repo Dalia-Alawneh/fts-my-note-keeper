@@ -1,13 +1,18 @@
 import { Router } from "express";
-import { createNote, deleteNote, getNote, getNotes, partiallyUpdateNote, searchNote, updateNote } from "./note.controller.js";
-import errorHandler from "../../middlewares/errorHandler.js";
-import validate from "../../middlewares/validation/index.js";
-import { noteIdSchema, noteSchema, partialNoteSchema } from "../../middlewares/validation/schemas.js";
+import {
+  createNote, deleteNote,
+  getNote, getNotes,
+  partiallyUpdateNote, searchNote, updateNote
+} from "#modules/note/note.controller.js";
+import errorHandler from "#middlewares/errorHandler.js";
+import validate, { requestExpressValidator } from "#validation/index.js";
+import { noteIdSchema, noteSchema, partialNoteSchema } from "#validation/schemas.js";
+import { validateNotePagination, validateSearchQuery } from "#modules/note/note.validator.js";
 
 const router = Router();
 router.post('/', validate([{ schema: noteSchema, target: 'body' }]), createNote);
-router.get('/search', searchNote);
-router.get('/', getNotes);
+router.get('/search', validateSearchQuery, requestExpressValidator, searchNote);
+router.get('/', validateNotePagination, requestExpressValidator, getNotes);
 router.get('/:id', validate([{ schema: noteIdSchema, target: 'params' }]), getNote);
 router.delete('/:id', validate([{ schema: noteIdSchema, target: 'params' }]), deleteNote);
 router.put(
