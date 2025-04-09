@@ -1,4 +1,4 @@
-const validateMultipleSchemas = (schemas) => (req, res, next) => {
+const validateSchemas = (schemas) => (req, res, next) => {
   for (const { schema, target } of schemas) {
     const { error } = schema.validate(req[target]);
     if (error) {
@@ -8,4 +8,4 @@ const validateMultipleSchemas = (schemas) => (req, res, next) => {
   next();
 };
 
-export default validateMultipleSchemas;
+export default validateSchemas;
