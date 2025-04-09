@@ -5,7 +5,8 @@ import {
   getNoteByIdRepository,
   getNotesRepository,
   getPaginatedNotesRepository,
-  searchNotesRepository
+  searchNotesRepository,
+  updateNoteRepository
 } from "#modules/note/note.repository.js";
 
 export const searchNotesService = async (req, res, next) => {
@@ -74,6 +75,20 @@ export const deleteNoteService = async (req, res, next) => {
     }
 
     return res.status(200).json({ message: "Note deleted successfully" })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const updateNoteService = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const note = await updateNoteRepository(id, req.body)
+    if (!note) {
+      return res.status(404).json({ message: "Note not found" })
+    }
+
+    return res.status(200).json({ message: "Note updated successfully", note })
   } catch (error) {
     next(error)
   }
