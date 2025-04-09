@@ -1,13 +1,15 @@
-import { validationResult } from "express-validator";
+import { query } from "express-validator";
 
-export const checkValidation = (req) => {
-  const result = validationResult(req);
-  if (result.isEmpty()) {
-    return { valid: true };
-  }
+export const validateSearchQuery = [
+  query('query').notEmpty()
+];
 
-  return {
-    valid: false,
-    errors: result.array(),
-  };
-};
+export const validateNotePagination = [
+  query('limit')
+    .optional()
+    .isInt({ min: 1 }).withMessage('limit must be a positive integer'),
+
+  query('page')
+    .optional()
+    .isInt({ min: 1 }).withMessage('page must be a positive integer'),
+];

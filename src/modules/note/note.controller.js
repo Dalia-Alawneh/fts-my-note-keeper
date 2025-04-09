@@ -1,19 +1,11 @@
 import { createNoteService, deleteNoteService, getNoteService, getNotesService, partiallyUpdateNoteService, searchNotesService, updateNoteService } from "#modules/note/note.service.js";
-import { checkValidation } from "#modules/note/note.validator.js";
 
 
 const createNote = (req, res, next) => {
   createNoteService(req, res, next);
 }
 
-const getNotes = (req, res, next) => {
-  const validateSearch = checkValidation(req);
-  if (!validateSearch.valid) {
-    return res.status(400).json(validateSearch.errors)
-  }
-
-  getNotesService(req, res, next)
-}
+const getNotes = getNotesService;
 
 const getNote = getNoteService;
 
@@ -23,14 +15,7 @@ const updateNote = updateNoteService;
 
 const partiallyUpdateNote = partiallyUpdateNoteService;
 
-const searchNote = (req, res, next) => {
-  const validateSearch = checkValidation(req);
-  if (!validateSearch.valid) {
-    return res.status(400).json(validateSearch.errors)
-  }
-
-  searchNotesService(req, res, next)
-}
+const searchNote = searchNotesService;
 
 
 

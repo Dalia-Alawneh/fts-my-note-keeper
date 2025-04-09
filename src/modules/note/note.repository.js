@@ -44,7 +44,7 @@ export const updateNoteRepository = async (id, body) => {
 export const partiallyUpdateNoteRepository = async (id, body) =>{
   return await Note.findOneAndUpdate(
     { _id: id },
-    { title, content },
+    { ...body },
     { new: true }
   );
 }
