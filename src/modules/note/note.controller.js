@@ -1,4 +1,6 @@
 import Note from "../../models/note.model.js";
+import { searchNotesService } from "./note.service.js";
+import { validateSearchQuery } from "./note.validator.js";
 
 const createNote = async (req, res, next) => {
   try {
@@ -102,26 +104,12 @@ const partiallyUpdateNote = async (req, res, next) => {
 }
 
 const searchNote = async (req, res, next) => {
-  const { query } = req.query;
-
-  if (!query) {
-    return res.status(400).json({ message: "Search query is required" })
+  const validateSearch = validateSearchQuery(req);
+  if (!validateSearch.valid) {
+    return res.status(400).json(validateSearch.errors)
   }
-  try {
-    const notes = await Note.find({
-      $or: [
-        { title: { $regex: query, $options: 'i' } },
-        { content: { $regex: query, $options: 'i' } },
-      ]
-    });
-    if (notes.length === 0) {
-      return res.status(204).json({ message: "No data found" })
-    }
 
-    return res.status(200).json({ notes })
-  } catch (error) {
-    next(error)
-  }
+  searchNotesService(req, res, next)
 }
 
 
