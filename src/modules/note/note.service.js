@@ -1,6 +1,7 @@
 import {
   countDocumentRepository,
   createNoteRepository,
+  getNoteByIdRepository,
   getNotesRepository,
   getPaginatedNotesRepository,
   searchNotesRepository
@@ -44,6 +45,20 @@ export const getNotesService = async (req, res, next) => {
 
     const notes = await getNotesRepository();
     return res.json({ notes })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getNoteService = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const note = await getNoteByIdRepository(id);
+    if (!note) {
+      return res.status(404).json({ message: "Note not found" })
+    }
+
+    return res.status(200).json({ note })
   } catch (error) {
     next(error)
   }
