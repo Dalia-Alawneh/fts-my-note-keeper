@@ -1,5 +1,5 @@
 import Note from "#models/note.model.js";
-import { createNoteService, getNoteService, getNotesService, searchNotesService } from "#modules/note/note.service.js";
+import { createNoteService, deleteNoteService, getNoteService, getNotesService, searchNotesService } from "#modules/note/note.service.js";
 import { checkValidation } from "#modules/note/note.validator.js";
 
 
@@ -16,23 +16,9 @@ const getNotes = (req, res, next) => {
   getNotesService(req, res, next)
 }
 
-const getNote = (req, res, next) => {
-  getNoteService(req, res, next)
-}
+const getNote = getNoteService;
 
-const deleteNote = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const note = await Note.findByIdAndDelete(id);
-    if (!note) {
-      return res.status(404).json({ message: "Note not found" })
-    }
-
-    return res.status(200).json({ message: "Note deleted successfully" })
-  } catch (error) {
-    next(error)
-  }
-}
+const deleteNote = deleteNoteService;
 
 const updateNote = async (req, res, next) => {
   const { id } = req.params;

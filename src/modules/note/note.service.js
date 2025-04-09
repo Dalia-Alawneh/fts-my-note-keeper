@@ -1,6 +1,7 @@
 import {
   countDocumentRepository,
   createNoteRepository,
+  deleteNoteRepository,
   getNoteByIdRepository,
   getNotesRepository,
   getPaginatedNotesRepository,
@@ -59,6 +60,20 @@ export const getNoteService = async (req, res, next) => {
     }
 
     return res.status(200).json({ note })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const deleteNoteService = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const note = await deleteNoteRepository(id);
+    if (!note) {
+      return res.status(404).json({ message: "Note not found" })
+    }
+
+    return res.status(200).json({ message: "Note deleted successfully" })
   } catch (error) {
     next(error)
   }
