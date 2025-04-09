@@ -7,4 +7,8 @@ export const searchNotesRepository = async (query) => {
       { content: { $regex: query, $options: 'i' } },
     ]
   });
-} 
+}
+
+export const createNoteRepository = async (requestBody) => {
+  return await Note.create(requestBody);
+}

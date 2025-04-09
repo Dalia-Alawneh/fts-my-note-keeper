@@ -1,14 +1,9 @@
 import Note from "../../models/note.model.js";
-import { searchNotesService } from "./note.service.js";
+import { createNoteService, searchNotesService } from "./note.service.js";
 import { validateSearchQuery } from "./note.validator.js";
 
-const createNote = async (req, res, next) => {
-  try {
-    const addedNote = await Note.create(req.body)
-    return res.status(201).json({ message: "Note added successfully", addedNote });
-  } catch (error) {
-    next(error)
-  }
+const createNote = (req, res, next) => {
+  createNoteService(req, res, next);
 }
 
 const getNotes = async (req, res, next) => {
@@ -103,7 +98,7 @@ const partiallyUpdateNote = async (req, res, next) => {
   }
 }
 
-const searchNote = async (req, res, next) => {
+const searchNote = (req, res, next) => {
   const validateSearch = validateSearchQuery(req);
   if (!validateSearch.valid) {
     return res.status(400).json(validateSearch.errors)
