@@ -6,6 +6,10 @@ const NoteSchema = new mongoose.Schema({
     required: true,
   },
   content: String,
+  color: {
+    type: String,
+    default: "#D3D3D3",
+  },
 }, {
   timestamps: true
 });
