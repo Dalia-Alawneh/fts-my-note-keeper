@@ -2,9 +2,14 @@ import { validationResult } from "express-validator";
 
 const validateSchemas = (schemas) => (req, res, next) => {
   for (const { schema, target } of schemas) {
-    const { error } = schema.validate(req[target]);
+    const { error } = schema.validate(req[target], { abortEarly: false });
     if (error) {
-      return res.status(400).json({ error: error.details[0].message });
+      const fieldErrors = {};
+      error.details.forEach(detail => {
+        const field = detail.path.join('.');
+        fieldErrors[field] = detail.message;
+      });
+      return res.status(400).json({ fieldErrors });
     }
   }
   next();
